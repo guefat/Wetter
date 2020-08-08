@@ -11,6 +11,11 @@ from PMS import PMS5003
 import VL53L1X
 from GFSensorLib import bme280, bh1750, ads1015 , veml6075
 from statistics import mean
+import json
+
+f = open('config.json')
+Qconfig = json.loads(f.read())
+f.close()
 
 GPIO.setwarnings(False)
 pms = PMS5003()                                     #Partikelsensor
@@ -262,11 +267,10 @@ while True:
             #Ausgabe in SQL-Datenbank
             db=mysql.connect(user="pi",passwd="raspberry",db="weatherdb") 
             cursor=db.cursor()
-            query = "insert into data " +\
-                    "(datetime,temperature,pressure,pressureNN," +\
-                    "snowlevel,windspeed,maxwind,radioactivity,rainamount,uvindex,cpu_temp,ub,dewpoint,uusv,Tmax,Tmin,uvstring,winddir)" + \
-                    "values(now(),%0.1f,%0.1f,%0.1f,%0.0f,%d,%d,%d,%0.0f,%0.0f,%0.0f,%0.0f,%0.3f,%0.1f,%2.2f,%2.1f,%0.1f,%2.1f,%2.1f,%2.1f,%2.1f,'%s','%s')" % (T,p,pnn,+\
-                    rh,particles['PM1p0'],particles['PM2p5'],particles['PM10'],lightlevel,snowlevel/10,V,Vmax,gray,rainamount,uvi,cpu_temp,ub,dewpoint,uusv,Tmax,Tmin,uviEntry,WindDirEntry)
+
+            columns = ', '.join([q['column'] for q in Qconfig])
+            values = ', '.join([q['format'] % eval(q['variable']) for q in Qconfig])
+            query = "insert into data (datetime, " + columns + ") " + "values(now(), " + values + ")"
                           
             lst_Wind=[] #Liste leeren
             cursor.execute(query)

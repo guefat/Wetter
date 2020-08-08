@@ -1,0 +1,113 @@
+[
+	{
+		"column": "temperature",
+		"format": "%0.1f",
+		"variable": "T"
+	},
+	{
+		"column": "pressure",
+		"format": "%0.1f",
+		"variable": "p"
+	},
+	{
+		"column": "pressureNN",
+		"format": "%7.1f",
+		"variable": "pnn"
+	},
+	{
+		"column": "humidity",
+		"format": "%0.0f",
+		"variable": "rh"
+	},
+	{
+		"column": "pm1p0",
+		"format": "%d",
+		"variable": "particles['PM1p0']"
+	},
+		{
+		"column": "pm2p5",
+		"format": "%d",
+		"variable": "particles['PM2p5']"
+	},
+		{
+		"column": "pm10",
+		"format": "%d",
+		"variable": "particles['PM10']"
+	},
+	{
+		"column": "lightlevel",
+		"format": "%0.0f",
+		"variable": "lightlevel"
+	},
+	{
+		"column": "snowlevel",
+		"format": "%0.0f",
+		"variable": "snowlevel"
+	},
+	{
+		"column": "windspeed",
+		"format": "%3.1f",
+		"variable": "V"
+	},
+	{
+		"column": "maxwind",
+		"format": "%0.0f",
+		"variable": "Vmax"
+	},
+	{
+		"column": "radioactivity",
+		"format": "%0.3f",
+		"variable": "gray"
+	},
+	{
+		"column": "rainamount",
+		"format": "%0.2f",
+		"variable": "rainamount"
+	},
+	{
+		"column": "uvindex",
+		"format": "%0.1f",
+		"variable": "uvi"
+	},
+	{
+		"column": "cpu_temp",
+		"format": "%0.1f",
+		"variable": "cpu_temp"
+	},
+	{
+		"column": "ub",
+		"format": "%0.1f",
+		"variable": "ub"
+	},
+	{
+		"column": "dewpoint",
+		"format": "%2.1f",
+		"variable": "dewpoint"
+	},
+	{
+		"column": "uusv",
+		"format": "%0.1f",
+		"variable": "uusv"
+	},
+	{
+		"column": "Tmax",
+		"format": "%0.1f",
+		"variable": "Tmax"
+	},
+	{
+		"column": "Tmin",
+		"format": "%0.1f",
+		"variable": "Tmin"
+	},
+	{
+		"column": "uvstring",
+		"format": "'%s'",
+		"variable": "uviEntry"
+	},
+	{
+		"column": "winddir",
+		"format": "'%s'",
+		"variable": "WindDirEntry"
+	}
+]
+
