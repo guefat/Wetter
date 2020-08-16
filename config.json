@@ -5,11 +5,6 @@
 		"variable": "T"
 	},
 	{
-		"column": "pressure",
-		"format": "%0.1f",
-		"variable": "p"
-	},
-	{
 		"column": "pressureNN",
 		"format": "%7.1f",
 		"variable": "pnn"
@@ -70,26 +65,6 @@
 		"variable": "uvi"
 	},
 	{
-		"column": "cpu_temp",
-		"format": "%0.1f",
-		"variable": "cpu_temp"
-	},
-	{
-		"column": "ub",
-		"format": "%0.1f",
-		"variable": "ub"
-	},
-	{
-		"column": "dewpoint",
-		"format": "%2.1f",
-		"variable": "dewpoint"
-	},
-	{
-		"column": "uusv",
-		"format": "%0.1f",
-		"variable": "uusv"
-	},
-	{
 		"column": "Tmax",
 		"format": "%0.1f",
 		"variable": "Tmax"
@@ -98,11 +73,6 @@
 		"column": "Tmin",
 		"format": "%0.1f",
 		"variable": "Tmin"
-	},
-	{
-		"column": "uvstring",
-		"format": "'%s'",
-		"variable": "uviEntry"
 	},
 	{
 		"column": "winddir",
