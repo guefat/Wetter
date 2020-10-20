@@ -9,7 +9,8 @@
 # Date: 2019-02-02
 # V1.2
 
-import time
+from time import sleep
+from statistics import median
 from smbus import SMBus
 
 class bme280:
@@ -263,6 +264,7 @@ class ads1015:
         if gain in [0,1,2,3,4,5]:
             self.set(self.GAIN, gain)
 
+
 class veml6075:
 
     def __init__(self, addr = 0x10):
@@ -291,3 +293,101 @@ class veml6075:
         UVAWm = UVAcalc * self.UVA2Wm
         UVBWm = UVBcalc * self.UVB2Wm
         return UVI
+
+
+class lidarv4:
+    # The sensor module has a 7-bit slave address with a default value of 0x62 in hexadecimal notation.
+    # The effective 8 bit I2C address is 0xC4 write, 0xC5 read. The device will not respond to a general call.
+    LIDAR_ADDRESS = 0x62
+
+    LIDAR_ACQ_COMMANDS = 0x00
+    LIDAR_STATUS = 0x01
+    LIDAR_ACQUISITION_COUNT = 0x05
+    LIDAR_FULL_DELAY_LOW = 0x10
+    LIDAR_FULL_DELAY_HIGH = 0x11
+    LIDAR_SENSITIVITY = 0x1C
+    LIDAR_TEMPERATURE = 0xE0
+    LIDAR_POWER_MODE = 0xE2
+    LIDAR_MEASUREMENT_INTERVAL = 0xE3
+    LIDAR_FACTORY_RESET = 0xE4
+    LIDAR_HIGH_ACCURACY_MODE = 0xEB
+
+    STATUS_DC_ERROR = 0b00100000
+    STATUS_DC_BIAS =  0b00010000
+    STATUS_LOW_POWER = 0b00001000
+    STATUS_REFERENCE_OVERFLOW = 0b00000100
+    STATUS_SIGNAL_OVERFLOW = 0b00000010
+    STATUS_BUSY = 0b00000001
+
+    POWER_MODE_ASYNC = 0x00
+    POWER_MODE_SYNC = 0x01
+    POWER_MODE_ALWAYS_ON = 0xFF
+
+    ACQ_WITHOUT_BIAS_CORR = 0x03
+    ACQ_WITH_BIAS_CORR = 0x04
+
+    def __init__(self, addr = LIDAR_ADDRESS):
+        self.i2c = SMBus(1)
+        self.addr = addr
+        self.averaging = 1
+
+    def set_averaging(self, averaging = 1):
+        self.averaging = abs(round(averaging))
+
+    def get_status(self):
+        try:
+            return self.i2c.read_byte_data(self.addr, self.LIDAR_STATUS)
+        except:
+            return 0xFF
+
+    def is_busy(self):
+        return ((self.get_status() & self.STATUS_BUSY)!=0)
+
+    def is_error(self):
+        return ((self.get_status() & self.STATUS_DC_ERROR) != 0)
+
+    def set_acq_command(self, acq_command = ACQ_WITHOUT_BIAS_CORR):
+        try:
+            self.i2c.write_byte_data(self.addr, self.LIDAR_ACQ_COMMANDS, acq_command)
+            return True
+        except:
+            return False
+
+    def get_full_delay(self):
+        try:
+            fdlow = self.i2c.read_byte_data(self.addr, self.LIDAR_FULL_DELAY_LOW)
+            fdhigh = self.i2c.read_byte_data(self.addr, self.LIDAR_FULL_DELAY_HIGH)
+            fd = (fdhigh<<8) + fdlow
+            return fd
+        except:
+            return None
+
+    def read(self, acq_command = ACQ_WITHOUT_BIAS_CORR):
+        while not self.set_acq_command(acq_command = acq_command):
+            sleep(0.001)
+        while self.is_busy():
+            sleep(0.001)
+        distance = None
+        while distance == None:
+            distance = self.get_full_delay()
+            sleep(0.001)
+        return distance
+
+    def set_sensitivity(self, sensitivity = 0x00):
+        self.i2c.write_byte_data(self.addr, self.LIDAR_SENSITIVITY, sensitivity)
+
+    def get_temperature(self):
+        try:
+            temperature = self.i2c.read_byte_data(self.addr, self.LIDAR_TEMPERATURE)
+            return temperature
+        except:
+            return None
+
+    def set_high_accuracy_mode(self, navg = 0):
+        self.i2c.write_byte_data(self.addr, self.LIDAR_HIGH_ACCURACY_MODE, navg)
+
+    def factory_reset(self):
+        self.i2c.write_byte_data(self.addr, self.LIDAR_FACTORY_RESET, 0x01)
+
+    def set_acquisition_count(self, acq_count = 0xFF):
+        self.i2c.write_byte_data(self.addr, self.LIDAR_ACQUISITION_COUNT, acq_count)
