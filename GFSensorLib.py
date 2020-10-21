@@ -5,9 +5,11 @@
 # humidity sensor.
 # - BH1750 light sensor.
 # - ADS1015 analog-digital converter
+# - VEML6075 UVA/UVB light sensor
+# - Garmin Lidar Lite v4 LED
 # Author: Gernot Fattinger
-# Date: 2019-02-02
-# V1.2
+# Date: 2020-10-21
+# V1.3
 
 from time import sleep
 from statistics import median
