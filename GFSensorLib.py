@@ -329,10 +329,8 @@ class lidarv4:
     def __init__(self, addr = LIDAR_ADDRESS):
         self.i2c = SMBus(1)
         self.addr = addr
-        self.averaging = 1
-
-    def set_averaging(self, averaging = 1):
-        self.averaging = abs(round(averaging))
+        self.factory_reset()
+        self.set_high_accuracy_mode(navg = 100)
 
     def get_status(self):
         try:
