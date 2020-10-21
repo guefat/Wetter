@@ -7,6 +7,21 @@
 # - ADS1015 analog-digital converter
 # - VEML6075 UVA/UVB light sensor
 # - Garmin Lidar Lite v4 LED
+# *******************************************
+# *                IMPORTANT                *
+# *******************************************
+# For the Garmin Lidar to work on a Raspi3B+
+# correctly, in the file:
+# /boot/config.txt
+#
+# Replace the line:
+# dtparam=i2c_arm=on
+# 
+# With:
+# dtparam=i2c_arm=on,i2c_arm_baudrate=200000
+#
+# Reboot the Raspberry Pi after this.
+# *******************************************
 # Author: Gernot Fattinger
 # Date: 2020-10-21
 # V1.3
