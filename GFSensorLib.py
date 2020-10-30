@@ -26,7 +26,7 @@
 # Date: 2020-10-21
 # V1.3
 
-from time import sleep
+from time import sleep, time
 from statistics import median
 from smbus import SMBus
 import serial
@@ -378,13 +378,14 @@ class lidarv4:
         except:
             return None
 
-    def read(self, acq_command = ACQ_WITHOUT_BIAS_CORR):
-        while not self.set_acq_command(acq_command = acq_command):
+    def read(self, acq_command = ACQ_WITHOUT_BIAS_CORR, timeout = 1):
+        tstart = time()
+        while not self.set_acq_command(acq_command = acq_command) and (time() - tstart < timeout):
             sleep(0.001)
-        while self.is_busy():
+        while self.is_busy() and (time() - tstart < timeout):
             sleep(0.001)
         distance = None
-        while distance == None:
+        while (distance == None) and (time() - tstart < timeout):
             distance = self.get_full_delay()
             sleep(0.001)
         return distance
