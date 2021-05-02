@@ -4,6 +4,7 @@
 		"format": "%0.1f",
 		"variable": "T"
 	},
+	
 	{
 		"column": "pressureNN",
 		"format": "%7.1f",
@@ -73,11 +74,7 @@
 		"column": "Tmin",
 		"format": "%0.1f",
 		"variable": "Tmin"
-	},
-	{
-		"column": "winddir",
-		"format": "'%s'",
-		"variable": "WindDirEntry"
 	}
+	
 ]
 
