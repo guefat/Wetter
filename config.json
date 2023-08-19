@@ -17,17 +17,17 @@
 	},
 	{
 		"column": "pm1p0",
-		"format": "%d",
+		"format": "%1.0f",
 		"variable": "particles['PM1p0']"
 	},
 		{
 		"column": "pm2p5",
-		"format": "%d",
+		"format": "%1.0f",
 		"variable": "particles['PM2p5']"
 	},
 		{
 		"column": "pm10",
-		"format": "%d",
+		"format": "%1.0f",
 		"variable": "particles['PM10']"
 	},
 	{
@@ -77,4 +77,3 @@
 	}
 	
 ]
-
