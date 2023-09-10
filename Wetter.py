@@ -132,13 +132,17 @@ def mean_nonan(lst):
         return nan
 
 def readCpuTemperature():
+    if os.path.isfile('/opt/vc/bin/vcgencmd'):
+        vfile = '/opt/vc/bin/vcgencmd measure_temp'
+    else:
+        vfile = 'vcgencmd measure_temp'
     NTcpus = 100
     if 'Tcpus' not in globals():
         global Tcpus
-        Tcpu = float(os.popen('/opt/vc/bin/vcgencmd measure_temp').read()[5:-3])
+        Tcpu = float(os.popen(vfile).read()[5:-3])
         Tcpus = [Tcpu for n in range(NTcpus)]
     Tcpus.pop(0)
-    Tcpus.append(float(os.popen('/opt/vc/bin/vcgencmd measure_temp').read()[5:-3]))
+    Tcpus.append(float(os.popen(vfile).read()[5:-3]))
     return sum(Tcpus)/NTcpus
 
 
